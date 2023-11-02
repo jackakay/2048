@@ -1,0 +1,8 @@
+C:\Users\jackk\Desktop\Important\Programming\quiz game\2048\2048\2048\bin\Debug\2048.exe.config
+C:\Users\jackk\Desktop\Important\Programming\quiz game\2048\2048\2048\bin\Debug\2048.exe
+C:\Users\jackk\Desktop\Important\Programming\quiz game\2048\2048\2048\bin\Debug\2048.pdb
+C:\Users\jackk\Desktop\Important\Programming\quiz game\2048\2048\2048\obj\Debug\2048.csproj.AssemblyReference.cache
+C:\Users\jackk\Desktop\Important\Programming\quiz game\2048\2048\2048\obj\Debug\2048.csproj.SuggestedBindingRedirects.cache
+C:\Users\jackk\Desktop\Important\Programming\quiz game\2048\2048\2048\obj\Debug\2048.csproj.CoreCompileInputs.cache
+C:\Users\jackk\Desktop\Important\Programming\quiz game\2048\2048\2048\obj\Debug\2048.exe
+C:\Users\jackk\Desktop\Important\Programming\quiz game\2048\2048\2048\obj\Debug\2048.pdb

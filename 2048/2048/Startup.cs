@@ -21,6 +21,7 @@ namespace _2048
         public static extern bool GetAsyncKeyState(int vKey);
 
         public static int[,] grid = { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 2 } };
+        public static int score = 0;
 
         static void Main(string[] args)
         {
@@ -47,7 +48,9 @@ namespace _2048
                         Console.Write('|');
                     }
                     Console.WriteLine();
+                    
                 }
+                Console.WriteLine("Score: " + score.ToString());
                 Console.WriteLine();
 
                 Thread.Sleep(1000);
@@ -125,6 +128,7 @@ namespace _2048
                                     if(grid[i - k, j] == grid[i, j])
                                     {
                                         grid[i - k, j] = grid[i, j] * 2;
+                                        score += grid[i, j] * 2;
                                         grid[i, j] = 0;
                                         break;
                                     }
@@ -158,6 +162,7 @@ namespace _2048
                                     if (grid[i + k, j] == grid[i, j])
                                     {
                                         grid[i + k, j] = grid[i, j] * 2;
+                                        score += grid[i, j] * 2;
                                         grid[i, j] = 0;
                                         break;
                                     }
@@ -193,6 +198,7 @@ namespace _2048
                                     if (grid[i, j+k] == grid[i, j])
                                     {
                                         grid[i, j + k] = grid[i, j] * 2;
+                                        score += grid[i, j] * 2;
                                         grid[i, j] = 0;
                                         break;
                                     }
@@ -228,6 +234,7 @@ namespace _2048
                                     if (grid[i, j-k] == grid[i, j])
                                     {
                                         grid[i , j -k] = grid[i, j] * 2;
+                                        score += grid[i, j] * 2;
                                         grid[i, j] = 0;
                                         break;
                                     }

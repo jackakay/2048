@@ -20,11 +20,11 @@ namespace _2048
         [DllImport("User32.dll")]
         public static extern bool GetAsyncKeyState(int vKey);
 
-        public static int[,] grid = { {0,0,0,0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 2 }, { 0, 0, 0, 2 } };
+        public static int[,] grid = { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 2 } };
 
         static void Main(string[] args)
         {
-            
+
             //37 left 38 up 39 right 40 down
             while (true)
             {
@@ -32,23 +32,24 @@ namespace _2048
                 #region draw
                 for (int i = 0; i < grid.GetLength(0); i++)
                 {
-                    for(int j = 0; j < grid.GetLength(1); j++)
+                    for (int j = 0; j < grid.GetLength(1); j++)
                     {
-                        int spot = grid[i,j];
-                        
-                        if(spot == 0)
+                        int spot = grid[i, j];
+
+                        if (spot == 0)
                         {
-                            Console.Write("   ");
+                            Console.Write(" ");
                         }
                         else
                         {
                             Console.Write(spot);
                         }
+                        Console.Write('|');
                     }
                     Console.WriteLine();
                 }
                 Console.WriteLine();
-                
+
                 Thread.Sleep(1000);
                 Console.Clear();
                 #endregion
@@ -56,12 +57,27 @@ namespace _2048
                 if (GetAsyncKeyState(38))
                 {
                     MoveAllSpots(0);
-                    //spawnSpot();
+                    spawnSpot();
+                    Thread.Sleep(100);
+                }else if (GetAsyncKeyState(40))
+                {
+                    MoveAllSpots(1);
+                    spawnSpot();
+                    Thread.Sleep(100);
+                }else if (GetAsyncKeyState(39))
+                {
+                    MoveAllSpots(2);
+                    spawnSpot();
+                    Thread.Sleep(100);
+                }else if (GetAsyncKeyState(37))
+                {
+                    MoveAllSpots(3);
+                    spawnSpot();
                     Thread.Sleep(100);
                 }
 
             }
-            
+
         }
         static List<coord> getAvailableSpots()
         {
@@ -77,7 +93,7 @@ namespace _2048
                         spots.Add(spot);
                     }
                 }
-              
+
             }
             return spots;
         }
@@ -88,75 +104,154 @@ namespace _2048
             int newSpot = rand.Next(0, possibleSpots.Count);
             grid[possibleSpots[newSpot].x, possibleSpots[newSpot].y] = 2;
         }
+
+       
         static void MoveAllSpots(int direction)
         {
-            //direction -> 0 - up, 1- right, 2-down, 3-left
+            //direction -> 0 - up, 1- down, 2-right, 3-left
 
-            switch(direction)
+            switch (direction)
             {
                 case 0:
                     for (int i = 0; i < grid.GetLength(0); i++)
                     {
                         for (int j = 0; j < grid.GetLength(1); j++)
                         {
-                            if (grid[i, j] == 0) break;
-                            bool placed = false;
-                            while (!placed)
+                            //i want to kms
+                            if (grid[i, j] != 0)
                             {
-                                if (--i >= 0) {
-                                    if (grid[--i, j] == 0)
+                                for(int k = 1; k <= i; k++)
+                                {
+                                    if(grid[i - k, j] == grid[i, j])
                                     {
-                                        grid[--i, j] = grid[i, j];
+                                        grid[i - k, j] = grid[i, j] * 2;
                                         grid[i, j] = 0;
-                                        placed = true;
-                                    } else if (grid[--i, j] == grid[i, j])
-                                    {
-                                        grid[--i, j] *= 2;
-                                        grid[i, j] = 0;
-                                        placed = true;
+                                        break;
                                     }
-                                    else
+                                    if (grid[i - k, j] != 0)
                                     {
+                                        grid[i - k + 1, j] = grid[i, j];
+                                        grid[i, j] = 0;
+                                        break;
+                                    }
+                                    if (i - k == 0)
+                                    {
+                                        grid[0, j] = grid[i, j];
+                                        grid[i, j] = 0;
+                                        break;
+                                    }
+                                }
+                            } 
+                        }
+                    }
+                    break;
+                case 1:
+                    for (int i = grid.GetLength(0)-1; i >=0;  i--)
+                    {
+                        for (int j = grid.GetLength(1)-1;  j >=0; j--)
+                        {
+                            //i want to kms
+                            if (grid[i, j] != 0)
+                            {
+                                for (int k = 1; k <= 3-i; k++)
+                                {
+                                    if (grid[i + k, j] == grid[i, j])
+                                    {
+                                        grid[i + k, j] = grid[i, j] * 2;
+                                        grid[i, j] = 0;
+                                        break;
+                                    }
+                                    if (grid[i + k, j] != 0)
+                                    {
+                                        grid[i+k-1,j] = grid[i, j];
+                                        grid[i, j] = 0;
+                                        break;
+                                    }
+                                    if (i + k == 3)
+                                    {
+                                        grid[3, j] = grid[i, j];
+                                        grid[i, j] = 0;
+                                        break;
+                                    }
+                                    
+                                }
+                            }
+
+                        }
+                    }
+                    break;
+                case 2:
+                    for (int i = grid.GetLength(0) - 1; i >= 0; i--)
+                    {
+                        for (int j = grid.GetLength(1) - 1; j >= 0; j--)
+                        {
+                            //i want to kms
+                            if (grid[i, j] != 0)
+                            {
+                                for (int k = 1; k <= 3 - j; k++)
+                                {
+                                    if (grid[i, j+k] == grid[i, j])
+                                    {
+                                        grid[i, j + k] = grid[i, j] * 2;
+                                        grid[i, j] = 0;
+                                        break;
+                                    }
+                                    if (grid[i , j + k] != 0)
+                                    {
+                                        grid[i , j + k - 1] = grid[i, j];
+                                        grid[i, j] = 0;
+                                        break;
+                                    }
+                                    if (j + k == 3)
+                                    {
+                                        grid[i, 3] = grid[i, j];
+                                        grid[i, j] = 0;
+                                        break;
+                                    }
+
+                                }
+                            }
+
+                        }
+                    }
+                    break;
+                case 3:
+                    for (int i = 0; i < grid.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < grid.GetLength(1); j++)
+                        {
+                            //i want to kms
+                            if (grid[i, j] != 0)
+                            {
+                                for (int k = 1; k <= j; k++)
+                                {
+                                    if (grid[i, j-k] == grid[i, j])
+                                    {
+                                        grid[i , j -k] = grid[i, j] * 2;
+                                        grid[i, j] = 0;
+                                        break;
+                                    }
+                                    if (grid[i, j-k] != 0)
+                                    {
+                                        grid[i , j - k+1] = grid[i, j];
+                                        grid[i, j] = 0;
+                                        break;
+                                    }
+                                    if (j - k == 0)
+                                    {
+                                        grid[i, 0] = grid[i, j];
+                                        grid[i, j] = 0;
                                         break;
                                     }
                                 }
                             }
-                            /*
-                            bool placed = false;
-                            int count = 0;
-                            while (!placed)
-                            {
-
-                                if (i == 0) break;
-                                if (grid[i,j] == 0) break;
-                                if (grid[0,j] == 0)
-                                {
-                                    grid[0,j] = grid[i, j];
-                                    grid[i,j] = 0;
-                                    placed = true;
-                                    break;
-                                }
-                                else
-                                {
-                                    if (grid[i - count, j] == 0)
-                                    {
-                                        count++;
-                                    }
-                                    else
-                                    {
-                                        grid[i - (count + 1), j] = grid[i, j];
-                                        grid[i, j] = 0;
-                                        placed = true;
-                                    }
-                                }
-                            }
-                            */
-
                         }
-
                     }
                     break;
             }
-        }
+        } 
+                    
     }
-}
+ }
+    
+
